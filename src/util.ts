@@ -39,34 +39,16 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
         action.repositoryName
       }.git`
 
-function windowsToCygwinPath(windowsPath) {
-  // Replace backslashes with forward slashes
-  var cygwinPath = windowsPath.replace(/\\/g, '/');
-
-  // Replace drive letter and colon with /cygdrive/<drive letter in lowercase>
-  cygwinPath = cygwinPath.replace(/^([A-Z]):/, '/cygdrive/$1');
-
-  // Convert to lowercase
-  cygwinPath = cygwinPath.toLowerCase();
-
-  return cygwinPath;
-}
-
 /**
  * Generate absolute folder path by the provided folder name
  */
 export const generateFolderPath = (action: ActionInterface): string => {
-  const isWin = process.env.RUNNER_OS == "Windows";
   const folderName = action['folder']
-  var path = path.isAbsolute(folderName)
+  return path.isAbsolute(folderName)
     ? folderName
     : folderName.startsWith('~')
     ? folderName.replace('~', process.env.HOME as string)
     : path.join(action.workspace, folderName)
-  if(isWin) {
-    path = windowsToCygwinPath(path);
-  }
-  return path;
 }
 
 /**
