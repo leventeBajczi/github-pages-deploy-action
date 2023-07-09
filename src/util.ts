@@ -43,11 +43,14 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
  * Generate absolute folder path by the provided folder name
  */
 export const generateFolderPath = (action: ActionInterface): string => {
+  const isWin = process.env.RUNNER_OS == "Windows";
   const folderName = action['folder']
   return path.isAbsolute(folderName)
     ? folderName
     : folderName.startsWith('~')
     ? folderName.replace('~', process.env.HOME as string)
+    : isWin
+    ? path.join("/cygdrive/", action.workspace, folderName)
     : path.join(action.workspace, folderName)
 }
 
