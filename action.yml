@@ -1,4 +1,4 @@
-name: 'Deploy to GitHub Pages'
+name: 'Deploy to GitHub Pages (WinFix)'
 description: 'This action will handle the deployment process of your project to GitHub Pages.'
 author: 'James Ives <iam@jamesiv.es>'
 runs:
