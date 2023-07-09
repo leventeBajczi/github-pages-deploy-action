@@ -158,6 +158,23 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       await mkdirP(`${temporaryDeploymentDirectory}/${action.targetFolder}`)
     }
 
+    function windowsToCygwinPath(windowsPath) {
+      const isWin = process.env.RUNNER_OS == "Windows";
+      if(isWin){
+        // Replace backslashes with forward slashes
+        var cygwinPath = windowsPath.replace(/\\/g, '/');
+      
+        // Replace drive letter and colon with /cygdrive/<drive letter in lowercase>
+        cygwinPath = cygwinPath.replace(/^([A-Z]):/, '/cygdrive/$1');
+      
+        // Convert to lowercase
+        cygwinPath = cygwinPath.toLowerCase();
+      
+        info(`Mapped path ${windowsPath} to ${cygwinPath}`)
+        return cygwinPath;
+      } else return windowsPath;
+    }
+
     /*
       Pushes all of the build files into the deployment directory.
       Allows the user to specify the root if '.' is provided.
