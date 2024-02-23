@@ -44,6 +44,7 @@ export const generateRepositoryPath = (action: ActionInterface): string =>
  */
 export const generateFolderPath = (action: ActionInterface): string => {
   const isWin = process.env.RUNNER_OS == "Windows";
+  console.log(`Using windows: ${isWin}`);
   const folderName = action['folder']
   return path.isAbsolute(folderName)
     ? folderName
